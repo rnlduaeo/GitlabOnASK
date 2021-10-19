@@ -150,7 +150,7 @@ kubectl apply -f mvn-pvc.yaml
 ```
 
 네트워크 통신에 문제가 없다면 [ASK cluster 이름 클릭 > Volumes > Persistent Volume Claims]에서 다음과 같이 잘 'bound' 된 것을 확인할 수 있습니다. 
-![](https://github.com/rnlduaeo/alibaba/blob/master/Screen%20Shot%202021-10-14%20at%205.50.34%20PM.png?raw=true)
+![](https://github.com/rnlduaeo/alibaba/blob/master/Screen%20Shot%202021-10-20%20at%2012.04.43%20AM.png?raw=true)
 
 [자세한 nas pv 생성 가이드](https://www.alibabacloud.com/help/doc-detail/189293.htm?spm=a2c63.p38356.879954.12.3c666ac2K8HmTW#task-2022002)는 클릭하여 확인합니다.
 
