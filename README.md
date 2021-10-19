@@ -24,8 +24,8 @@ Build가 trigger되면 kubernetes executor는 build, helper, service-[0-9] conta
 - [Helmfile](https://github.com/roboll/helmfile): 선언적으로 helm 차트를 실행하여 변경, 버전 관리에 유용하도록 helmfile를 사용하여 gitlab-runner를 배포하겠습니다.   
 
 ## Prerequisite
-kubernetes, helm 등에 대한 친숙함(?). 
-Code Repository: https://github.com/rnlduaeo/GitlabOnASK
+- kubernetes, helm 등에 대한 친숙함(?)   
+- Code Repository: https://github.com/rnlduaeo/GitlabOnASK
 
 ## Part 1. Gitlab instance deployment
 
