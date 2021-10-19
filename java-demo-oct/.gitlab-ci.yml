@@ -1,0 +1,31 @@
+cache:
+  paths:
+  - /cache
+stages:
+  - package
+  - build
+  - deploy
+mvn_package_job:
+  image: registry.cn-hangzhou.aliyuncs.com/eci/kaniko:1.0
+  stage: package
+  script:
+    - mvn clean package -DskipTests
+    - cp -f target/demo.war /cache #nas volume(/cache에 마운트)에 war artifact를 저장합니다.
+build_and_publish_docker_image_job:
+  image: registry.cn-hangzhou.aliyuncs.com/eci/kaniko:1.0
+  stage: build
+  script:
+    - mkdir target
+    - cp /cache/demo.war target/demo.war
+    - echo $CI_PIPELINE_ID
+    - kaniko -f `pwd`/Dockerfile -c `pwd` --destination=gitlab-registry.ap-northeast-1.cr.aliyuncs.com/project1/ gitlab-repository:$CI_PIPELINE_ID # 전단계(mvn_package_job)에서 저장한 artifact 기반으로 docket image를 build하고(kaniko build를 사용) ACR에 push합니다. 
+deploy_k8s_job:
+  image: registry.cn-hangzhou.aliyuncs.com/eci/kubectl:1.0
+  stage: deploy   
+  script:
+    - mkdir -p ~/.kube
+    - echo $KUBE_CONFIG | base64 -d > ~/.kube/config  # gitlab CI/CD variables에 저장된 KUBE_CONFIG 를 사용하여 target server에 deploy합니다. 
+    - sed -i "s/IMAGE_TAG/$CI_PIPELINE_ID/g" deployment.yaml
+    - cat deployment.yaml
+    - kubectl apply -f deployment.yaml
+

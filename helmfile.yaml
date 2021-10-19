@@ -1,0 +1,55 @@
+repositories:
+- name: gitlab 
+  url: https://charts.gitlab.io/
+releases:
+- name: gitlab-runner
+  namespace: default
+  chart: gitlab/gitlab-runner
+  version: 0.33.1
+  values:
+  - image: gitlab/gitlab-runner:alpine-v13.0.0 ## alpine base image로 사용
+    gitlabUrl: https://gitlab.haemieee2.xyz ## gitlab admin console에서 복사
+    runnerRegistrationToken: "9mGD3soBfos8psSDp-xd" ## gitlab admin console에서 복사
+    rbac: ## k8s 리소스에 대한 조작 권한 부여
+      create: true
+      resources: ["pods", "pods/exec", "secrets", "services"]
+      verbs: ["get", "list", "watch", "create", "patch", "delete"]
+      clusterWideAccess: false
+    metrics:
+      enabled: false
+    runners:
+    ## [[runners.kubernetes.volumes.pvc]] section에서 사전에 생성된 nas shared volume이 마운트 될 수 있도록 지정 
+    ## [[runners.kubernetes.volumes.secret]] 를 통해 secret를 runner pod에 마운트 (Alibaba Container Registry에 push하기 위한 authentication 정보), Gitlab CICD variable로도 지정 가능 - 선택사항
+    ## 그외 runners에 대한 config.toml 에 세팅할 수 있는 값들은 https://docs.gitlab.com/runner/executors/kubernetes.html#the-available-configtoml-settings 참조
+      config: |
+        concurrent = 2
+        check_interval = 0
+        [[runners]]
+          [runners.kubernetes]
+            namespace = "default"
+            pull_policy = "if-not-present"
+            cpu_limit = "0.5"
+            cpu_request = "0.5"
+            memory_limit = "1Gi"
+            memory_request = "1Gi"
+            helper_cpu_limit = "0.5"
+            helper_cpu_request = "0.5"
+            helper_memory_limit = "1Gi"
+            helper_memory_request  = "1Gi"
+            helper_image = "gitlab/gitlab-runner-helper:x86_64-latest"
+            [runners.kubernetes.pod_annotations]
+              "k8s.aliyun.com/eci-image-cache" = "true"
+            [[runners.kubernetes.volumes.pvc]] 
+              name = "gitlab-runner-cache-pvc"
+              mount_path = "/cache"
+              readonly = false
+            [[runners.kubernetes.volumes.pvc]]
+              name = "gitlab-runner-maven-pvc" 
+              mount_path = "/root/.m2"
+              readonly = false
+            [[runners.kubernetes.volumes.secret]]
+              name = "registry-auth-secret"
+              mount_path = "/root/.docker"
+              read_only = false
+              [runners.kubernetes.volumes.secret.items]
+                ".dockerconfigjson" = "config.json"

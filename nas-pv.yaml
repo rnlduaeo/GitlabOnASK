@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: gitlab-runner-cache-pv
+spec:
+  accessModes:
+  - ReadWriteMany
+  capacity:
+    storage: 10Pi
+  mountOptions:
+  - nolock,noresvport,noacl,hard
+  - vers=3
+  - rsize=1048576
+  - wsize=1048576
+  - proto=tcp
+  - timeo=600
+  - retrans=2
+  nfs:
+    path: /share
+    server: 25d6d34936c-lbb66.ap-northeast-1.nas.aliyuncs.com
