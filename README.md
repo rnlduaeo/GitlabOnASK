@@ -3,7 +3,6 @@
 
 ## Gitlab on Alibaba 권장 아키텍처
 ![](https://github.com/rnlduaeo/alibaba/blob/master/gitlab_bestpractice_architecture.png?raw=true)
-<img src="https://github.com/rnlduaeo/alibaba/blob/master/gitlab_bestpractice_architecture.png?raw=true" alt="drawing" width="1000" height="200"/>
 이번 가이드에서는 ECI 기반 Alibaba Cloud Serverless Kubernetes(ASK)과 NAS file storage를 사용합니다. GitLab은 파이프라인에 등록된 CI/CD Job을 실행할 때 별도의 runner를 호스팅하여 사용할 수 있는데, 이를 통해 리소스를 분산시켜 gitlab ecs instance의 비용을 줄일 수 있고 또 고성능의 Job을 무리없이 돌릴 수 있다는 장점을 가져갈 수 있습니다. 그 외에도 위의 아키텍처의 장점을 정리하면 아래와 같습니다.
 
 1) k8s의 Deployment와 PVC를 통한 높은 서비스 가용성 확보
@@ -40,6 +39,7 @@ Code Repository: https://github.com/rnlduaeo/GitlabOnASK
 ## Part 2. Gitlab runner deployment
 Gitlab runner를 ASK위에 설치합니다. runner는 항시 떠 있지만 나머지 pod는 사용자가 정의한 stage안의 job 이 실행될 때마다 실행되었다 사라집니다. 즉, pipeline이 실행될 때만 리소스를 가져다 사용하는 구조이기 때문에 비용을 매우 절약할 수 있습니다. 동적으로 생성되었다 사라지는 Pod들이 공유하여 스토리지 볼륨을 바라볼 수 있도록 NAS 형태의 PV를 사용할 것입니다. 
 ![](https://github.com/rnlduaeo/alibaba/blob/master/Screen%20Shot%202021-10-14%20at%204.03.51%20PM.png?raw=true)
+<img src="https://github.com/rnlduaeo/alibaba/blob/master/Screen%20Shot%202021-10-14%20at%204.03.51%20PM.png?raw=true" alt="drawing" width="400" height="200"/>
 
 ### 주의사항
 - nfs 외에도 cloud disk를 사용할 수도 있지만 ECI가 서로 다른 물리적 시스템에 흩어져 있기 때문에 동시 CI 작업이 있는 경우 이전 작업이 실행될 때까지 기다렸다가 그 다음 작업을 시작하기 전에 볼륨을 umount 해야 합니다. 따라서 nas가 여러 pod가 공유하여 읽고/쓰는 시나리오에 더 적합합니다.
