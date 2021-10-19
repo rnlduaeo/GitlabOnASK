@@ -37,7 +37,7 @@ Code Repository: https://github.com/rnlduaeo/GitlabOnASK
 > Note: "클라우드 리소스 생성 및 설정 가이드"에서는 CE edition: 무료버전을 설치합니다. 그 부분만 건너 뛰고 공식 가이드에 따라 EE를 설치해 주시면 됩니다. [CE와 EE의 기능 차이](https://about.gitlab.com/features/by-paid-tier/)는 클릭하여 확인해 주세요. 
 
 ## Part 2. Gitlab runner deployment
-Gitlab runner를 ASK위에 설치합니다. runner는 항시 떠 있지만 나머지 pod는 사용자가 정의한 stage안의 job 이 실행될 때마다 실행되었다 사라집니다. 즉, pipeline이 실행될 때만 리소스를 가져다 사용하는 구조이기 때문에 비용을 매우 절약할 수 있습니다. 동적으로 생성되었다 사라지는 Pod들이 공유하여 스토리지 볼륨을 바라볼 수 있도록 NAS 형태의 PV를 사용할 것입니다. 
+Gitlab runner를 ASK위에 설치합니다. runner는 항시 떠 있지만 나머지 pod는 사용자가 정의한 stage안의 job 이 실행될 때마다 실행되었다 사라집니다. 즉, pipeline이 실행될 때만 리소스를 가져다 사용하는 구조이기 때문에 비용을 매우 절약할 수 있습니다. 동적으로 생성되었다 사라지는 Pod들이 공유하여 스토리지 볼륨을 바라볼 수 있도록 NAS 형태의 PV를 사용할 것입니다.   
 <img src="https://github.com/rnlduaeo/alibaba/blob/master/Screen%20Shot%202021-10-14%20at%204.03.51%20PM.png?raw=true" alt="drawing" width="600" height="470"/>
 
 ### 주의사항
@@ -51,7 +51,7 @@ Gitlab runner를 ASK위에 설치합니다. runner는 항시 떠 있지만 나�
 ![](https://github.com/rnlduaeo/alibaba/blob/master/Screen%20Shot%202021-10-14%20at%205.40.24%20PM.png?raw=true)
 
 ### NAS File Storage 생성
-- [NAS file system을 생성](https://www.alibabacloud.com/help/doc-detail/27530.htm?spm=a2c63.p38356.879954.4.387db99fyUhhIn#section-5jo-0kj-jn5)합니다. ASK가 생성된 같은 VPC와 vswitch를 선택합니다. 그래야 추가적인 설정이나 퍼포먼스 문제 없이 데이터를 읽고 쓸수 있습니다. 필요한 만큼 File system을 생성합니다. 이번 가이드에서는 cache 스토리지와 mvn warehouse 스토리지 두개를 생성합니다. 
+- [NAS file system을 생성](https://www.alibabacloud.com/help/doc-detail/27530.htm?spm=a2c63.p38356.879954.4.387db99fyUhhIn#section-5jo-0kj-jn5)합니다. ASK가 생성된 같은 VPC와 vswitch를 선택합니다. 그래야 추가적인 설정이나 퍼포먼스 문제 없이 데이터를 읽고 쓸수 있습니다. 필요한 만큼 File system을 생성합니다. 이번 가이드에서는 cache 스토리지와 mvn warehouse 스토리지 두개를 생성합니다.   
 ![](https://github.com/rnlduaeo/alibaba/blob/master/Screen%20Shot%202021-10-14%20at%204.52.02%20PM.png?raw=true)
 - [mount target을 생성](https://www.alibabacloud.com/help/doc-detail/27531.htm?spm=a2c63.p38356.879954.5.387db99fKMirNm#section-6xi-a3u-zkq)합니다. ASK가 위치한 VPC와 Vswitch를 선택하여 생성합니다. 'IP Address of mount target' 값을 복사합니다. 
 ![](https://github.com/rnlduaeo/alibaba/blob/master/Screen%20Shot%202021-10-14%20at%204.52.29%20PM.png?raw=true)
