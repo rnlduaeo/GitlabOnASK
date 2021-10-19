@@ -3,7 +3,7 @@
 
 ## Gitlab on Alibaba 권장 아키텍처
 ![](https://github.com/rnlduaeo/alibaba/blob/master/gitlab_bestpractice_architecture.png?raw=true)
-<img src="https://github.com/rnlduaeo/alibaba/blob/master/gitlab_bestpractice_architecture.png?raw=true" alt="drawing" width="200" height="200"/>
+<img src="https://github.com/rnlduaeo/alibaba/blob/master/gitlab_bestpractice_architecture.png?raw=true" alt="drawing" width="1000" height="200"/>
 이번 가이드에서는 ECI 기반 Alibaba Cloud Serverless Kubernetes(ASK)과 NAS file storage를 사용합니다. GitLab은 파이프라인에 등록된 CI/CD Job을 실행할 때 별도의 runner를 호스팅하여 사용할 수 있는데, 이를 통해 리소스를 분산시켜 gitlab ecs instance의 비용을 줄일 수 있고 또 고성능의 Job을 무리없이 돌릴 수 있다는 장점을 가져갈 수 있습니다. 그 외에도 위의 아키텍처의 장점을 정리하면 아래와 같습니다.
 
 1) k8s의 Deployment와 PVC를 통한 높은 서비스 가용성 확보
