@@ -180,7 +180,7 @@ kubectl apply -f mvn-pvc.yaml
   cat ~/.kube/config | base64
   ```
 
-  ![](https://github.com/rnlduaeo/alibaba/blob/master/Screen%20Shot%202021-10-19%20at%209.50.19%20PM.png?raw=true)
+  ![](https://github.com/rnlduaeo/alibaba/blob/master/Screen%20Shot%202021-10-19%20at%209.50.19%20PM.png?raw=true). 
   KUBE_CONFIG라고 하는 variable에 저장합니다. 
 
 ### [선택사항] imageCache 설정
