@@ -13,7 +13,7 @@
 
 ## 용어 설명
 - CI/CD: Continues Integration/Continues Delivery(Deployment)의 약자로 반복적인 코드 변경 사항을 지속적으로 빌드/테스트/배포하는 프로세스를 의미합니다. 가령 개발자가 저장소로 push할 때마다 생성된 스크립트 세트를 통해 자동으로 빌드하고 테스트하여 오류나 버그의 발생 가능성을 줄일 수 있습니다. 이 과정은 승인을 거쳐 배포까지 자동화하는 과정으로 확장될 수 있습니다.
-![출처: gitlab homepage](https://docs.gitlab.com/ee/ci/introduction/img/gitlab_workflow_example_11_9.png)
+<img src="https://docs.gitlab.com/ee/ci/introduction/img/gitlab_workflow_example_11_9.png" alt="drawing" width="600" height="470"/>
 - [ASK](https://www.alibabacloud.com/help/doc-detail/86366.htm?spm=a2c63.l28256.b99.623.112d7d1bwAOgqd): Alibaba Cloud Serverless Kubernetes의 약자로 k8s를 구성하는 master/slave 노드 모두 알리바바에서 관리하는 전체 관리형 k8s 환경입니다. 사용자는 k8s 인프라 구성 요소에 신경을 덜고 애플리케이션 동작에 더 집중할 수 있습니다.
 - [ECI](https://www.alibabacloud.com/help/doc-detail/89129.htm?spm=a2c63.p38356.b99.2.2b672ec73atwGk): container를 실행시킬 수 있는 환경을 serverless 형태로 제공하는데 ASK(Alibaba Serverless Kubernetes)에서는 단일 pod로 동작합니다. 즉, k8s 환경에서는 ECI=pod 라고 생각하시면 됩니다. eci는 pod가 실행되는 시간에만 cpu/memory unit price 기준으로 과금됩니다.
 - [Gitlab runner](https://docs.gitlab.com/runner/): GitLab Runner는 GitLab CI/CD와 함께 작동하여 파이프라인에서 작업을 실행하는 애플리케이션입니다.
@@ -38,8 +38,7 @@ Code Repository: https://github.com/rnlduaeo/GitlabOnASK
 
 ## Part 2. Gitlab runner deployment
 Gitlab runner를 ASK위에 설치합니다. runner는 항시 떠 있지만 나머지 pod는 사용자가 정의한 stage안의 job 이 실행될 때마다 실행되었다 사라집니다. 즉, pipeline이 실행될 때만 리소스를 가져다 사용하는 구조이기 때문에 비용을 매우 절약할 수 있습니다. 동적으로 생성되었다 사라지는 Pod들이 공유하여 스토리지 볼륨을 바라볼 수 있도록 NAS 형태의 PV를 사용할 것입니다. 
-![](https://github.com/rnlduaeo/alibaba/blob/master/Screen%20Shot%202021-10-14%20at%204.03.51%20PM.png?raw=true)
-<img src="https://github.com/rnlduaeo/alibaba/blob/master/Screen%20Shot%202021-10-14%20at%204.03.51%20PM.png?raw=true" alt="drawing" width="600" height="450"/>
+<img src="https://github.com/rnlduaeo/alibaba/blob/master/Screen%20Shot%202021-10-14%20at%204.03.51%20PM.png?raw=true" alt="drawing" width="600" height="470"/>
 
 ### 주의사항
 - nfs 외에도 cloud disk를 사용할 수도 있지만 ECI가 서로 다른 물리적 시스템에 흩어져 있기 때문에 동시 CI 작업이 있는 경우 이전 작업이 실행될 때까지 기다렸다가 그 다음 작업을 시작하기 전에 볼륨을 umount 해야 합니다. 따라서 nas가 여러 pod가 공유하여 읽고/쓰는 시나리오에 더 적합합니다.
