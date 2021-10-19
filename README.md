@@ -13,7 +13,7 @@
 
 ## 용어 설명
 - CI/CD: Continues Integration/Continues Delivery(Deployment)의 약자로 반복적인 코드 변경 사항을 지속적으로 빌드/테스트/배포하는 프로세스를 의미합니다. 가령 개발자가 저장소로 push할 때마다 생성된 스크립트 세트를 통해 자동으로 빌드하고 테스트하여 오류나 버그의 발생 가능성을 줄일 수 있습니다. 이 과정은 승인을 거쳐 배포까지 자동화하는 과정으로 확장될 수 있습니다.
-<img src="https://docs.gitlab.com/ee/ci/introduction/img/gitlab_workflow_example_11_9.png" alt="drawing" width="700" height="300"/>. 
+<img src="https://docs.gitlab.com/ee/ci/introduction/img/gitlab_workflow_example_11_9.png" alt="drawing" width="700" height="400"/>. 
 - [ASK](https://www.alibabacloud.com/help/doc-detail/86366.htm?spm=a2c63.l28256.b99.623.112d7d1bwAOgqd): Alibaba Cloud Serverless Kubernetes의 약자로 k8s를 구성하는 master/slave 노드 모두 알리바바에서 관리하는 전체 관리형 k8s 환경입니다. 사용자는 k8s 인프라 구성 요소에 신경을 덜고 애플리케이션 동작에 더 집중할 수 있습니다.  
 - [ECI](https://www.alibabacloud.com/help/doc-detail/89129.htm?spm=a2c63.p38356.b99.2.2b672ec73atwGk): container를 실행시킬 수 있는 환경을 serverless 형태로 제공하는데 ASK(Alibaba Serverless Kubernetes)에서는 단일 pod로 동작합니다. 즉, k8s 환경에서는 ECI=pod 라고 생각하시면 됩니다. eci는 pod가 실행되는 시간에만 cpu/memory unit price 기준으로 과금됩니다.
 - [Gitlab runner](https://docs.gitlab.com/runner/): GitLab Runner는 GitLab CI/CD와 함께 작동하여 파이프라인에서 작업을 실행하는 애플리케이션입니다.  
