@@ -13,15 +13,15 @@
 
 ## 용어 설명
 - CI/CD: Continues Integration/Continues Delivery(Deployment)의 약자로 반복적인 코드 변경 사항을 지속적으로 빌드/테스트/배포하는 프로세스를 의미합니다. 가령 개발자가 저장소로 push할 때마다 생성된 스크립트 세트를 통해 자동으로 빌드하고 테스트하여 오류나 버그의 발생 가능성을 줄일 수 있습니다. 이 과정은 승인을 거쳐 배포까지 자동화하는 과정으로 확장될 수 있습니다.
-<img src="https://docs.gitlab.com/ee/ci/introduction/img/gitlab_workflow_example_11_9.png" alt="drawing" width="600" height="470"/>
-- [ASK](https://www.alibabacloud.com/help/doc-detail/86366.htm?spm=a2c63.l28256.b99.623.112d7d1bwAOgqd): Alibaba Cloud Serverless Kubernetes의 약자로 k8s를 구성하는 master/slave 노드 모두 알리바바에서 관리하는 전체 관리형 k8s 환경입니다. 사용자는 k8s 인프라 구성 요소에 신경을 덜고 애플리케이션 동작에 더 집중할 수 있습니다.
+<img src="https://docs.gitlab.com/ee/ci/introduction/img/gitlab_workflow_example_11_9.png" alt="drawing" width="700" height="300"/>. 
+- [ASK](https://www.alibabacloud.com/help/doc-detail/86366.htm?spm=a2c63.l28256.b99.623.112d7d1bwAOgqd): Alibaba Cloud Serverless Kubernetes의 약자로 k8s를 구성하는 master/slave 노드 모두 알리바바에서 관리하는 전체 관리형 k8s 환경입니다. 사용자는 k8s 인프라 구성 요소에 신경을 덜고 애플리케이션 동작에 더 집중할 수 있습니다.  
 - [ECI](https://www.alibabacloud.com/help/doc-detail/89129.htm?spm=a2c63.p38356.b99.2.2b672ec73atwGk): container를 실행시킬 수 있는 환경을 serverless 형태로 제공하는데 ASK(Alibaba Serverless Kubernetes)에서는 단일 pod로 동작합니다. 즉, k8s 환경에서는 ECI=pod 라고 생각하시면 됩니다. eci는 pod가 실행되는 시간에만 cpu/memory unit price 기준으로 과금됩니다.
-- [Gitlab runner](https://docs.gitlab.com/runner/): GitLab Runner는 GitLab CI/CD와 함께 작동하여 파이프라인에서 작업을 실행하는 애플리케이션입니다.
-- [Gitlab runner executor](https://docs.gitlab.com/runner/executors/): Gitlab Runner는 여러 시나리오에서 빌드를 실행하는 환경을 의미합니다. 빌드가 실행되면 Gitlab runner은 등록된 executor를 실행시켜 작업을 수행합니다. 이번 가이드에서는 [Kubernetes executor](https://docs.gitlab.com/runner/executors/kubernetes.html)를 사용합니다. 모든 프로젝트를 빌드하기 위한 dependency를 docker image에 넣을 수 있기 때문에 깔끔한 build 환경을 구현할 수 있습니다. 
-Build가 trigger되면 kubernetes executor는 build, helper, service-[0-9] container가 포함된 싱글pod가 실행되는데, helper가 git clone, download artifact 같은 작업을 수행하고 build container는 실제 빌드 작업 수행하며 service container는 database와 같은 서비스 컨테이너가 필요할 경우 실행됩니다. 
-- [Docker-in-Docker(dind)](https://docs.gitlab.com/runner/executors/kubernetes.html#using-dockerdind): 말 그대로 docker 안에 docker를 실행시키는 환경입니다. Kubernetes executor에서 docket image를 build하려면 dind가 필요하고, dind는 컨테이너의 priviledge mode를 필요로 합니다. Priviledge mode로 컨테이너를 실행시키면 Docker 데몬이 호스트 시스템의 기본 커널에 액세스할 수 있는 위험성이 있기 때문에 권장되는 것이 바로 kaniko build 입니다.
-- [Kaniko](https://github.com/GoogleContainerTools/kaniko): kaniko는 docker 데몬에 의존하지 않고 userspace에서 dockerfile내의 명령어를 수행하기 때문에 priviledge mode 없이도 docker image를 build할 수 있어 더 안전 합니다. Gitlab에서도 권장하고 있는 바입니다. [kaniko image build 방법](https://docs.gitlab.com/ee/ci/docker/using_kaniko.html)은 클릭하여 확인해 주세요. 
-- [Helmfile](https://github.com/roboll/helmfile): 선언적으로 helm 차트를 실행하여 변경, 버전 관리에 유용하도록 helmfile를 사용하여 gitlab-runner를 배포하겠습니다. 
+- [Gitlab runner](https://docs.gitlab.com/runner/): GitLab Runner는 GitLab CI/CD와 함께 작동하여 파이프라인에서 작업을 실행하는 애플리케이션입니다.  
+- [Gitlab runner executor](https://docs.gitlab.com/runner/executors/): Gitlab Runner는 여러 시나리오에서 빌드를 실행하는 환경을 의미합니다. 빌드가 실행되면 Gitlab runner은 등록된 executor를 실행시켜 작업을 수행합니다. 이번 가이드에서는 [Kubernetes executor](https://docs.gitlab.com/runner/executors/kubernetes.html)를 사용합니다. 모든 프로젝트를 빌드하기 위한 dependency를 docker image에 넣을 수 있기 때문에 깔끔한 build 환경을 구현할 수 있습니다.   
+Build가 trigger되면 kubernetes executor는 build, helper, service-[0-9] container가 포함된 싱글pod가 실행되는데, helper가 git clone, download artifact 같은 작업을 수행하고 build container는 실제 빌드 작업 수행하며 service container는 database와 같은 서비스 컨테이너가 필요할 경우 실행됩니다.   
+- [Docker-in-Docker(dind)](https://docs.gitlab.com/runner/executors/kubernetes.html#using-dockerdind): 말 그대로 docker 안에 docker를 실행시키는 환경입니다. Kubernetes executor에서 docket image를 build하려면 dind가 필요하고, dind는 컨테이너의 priviledge mode를 필요로 합니다. Priviledge mode로 컨테이너를 실행시키면 Docker 데몬이 호스트 시스템의 기본 커널에 액세스할 수 있는 위험성이 있기 때문에 권장되는 것이 바로 kaniko build 입니다.  
+- [Kaniko](https://github.com/GoogleContainerTools/kaniko): kaniko는 docker 데몬에 의존하지 않고 userspace에서 dockerfile내의 명령어를 수행하기 때문에 priviledge mode 없이도 docker image를 build할 수 있어 더 안전 합니다. Gitlab에서도 권장하고 있는 바입니다. [kaniko image build 방법](https://docs.gitlab.com/ee/ci/docker/using_kaniko.html)은 클릭하여 확인해 주세요.  
+- [Helmfile](https://github.com/roboll/helmfile): 선언적으로 helm 차트를 실행하여 변경, 버전 관리에 유용하도록 helmfile를 사용하여 gitlab-runner를 배포하겠습니다.   
 
 ## Prerequisite
 kubernetes, helm 등에 대한 친숙함(?)
