@@ -205,13 +205,13 @@ spec:
 ```
 
 ### Gitlab runner deployment
-이번 가이드에서는 아래 gitlab 공식 다큐먼트를 참조하여 예시 helmfile를 작성하였습니다. 예시를 참조하여 실제 환경에 맞게 config를 구성하시면 됩니다.
+이번 가이드에서는 아래 gitlab 공식 다큐먼트를 참조하여 예시 helmfile를 작성하였습니다. 예시를 참조하여 실제 환경에 맞게 config를 구성하시면 됩니다.  
 Reference link:  
-Gitlab Runner install in k8s (helm chart): https://docs.gitlab.com/runner/install/kubernetes.html
-values.yaml: https://gitlab.com/gitlab-org/charts/gitlab-runner/blob/main/values.yaml
-kubernetes executor: https://docs.gitlab.com/runner/executors/kubernetes.html 
+Gitlab Runner install in k8s (helm chart): https://docs.gitlab.com/runner/install/kubernetes.html. 
+values.yaml: https://gitlab.com/gitlab-org/charts/gitlab-runner/blob/main/values.yaml. 
+kubernetes executor: https://docs.gitlab.com/runner/executors/kubernetes.html. 
 
-[Menu > Admin > Overview > Runners] 에서 runner를 등록하기 위한 URL과 token을 복사하여 해당 부분에 붙여넣기 합니다. 
+[Menu > Admin > Overview > Runners] 에서 runner를 등록하기 위한 URL과 token을 복사하여 해당 부분에 붙여넣기 합니다.   
 ![](https://github.com/rnlduaeo/alibaba/blob/master/Screen%20Shot%202021-10-18%20at%204.43.23%20PM.png?raw=true)
 
 helmfile.yaml
