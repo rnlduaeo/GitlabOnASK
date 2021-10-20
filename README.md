@@ -48,6 +48,7 @@ Gitlab runner를 ASK위에 설치합니다. runner는 항시 떠 있지만 나�
 [ASK 생성 가이드](https://www.alibabacloud.com/help/doc-detail/86377.htm?spm=a2c63.l28256.b99.639.44a87d1bHQISmX)를 따라 cluster에 gitlab runner와 runners(kubernetes executor) 구성 설정을 deploy 합니다. 를 생성합니다.
 
 추후 해당 클러스터와의 API 통신을 위해 [Cluster information > Connection information]의 정보를 가지고 kubeconfig file 구성합니다.
+> gitlab ecs instance와 ASK가 같은 VPC 안에 위치하므로 
 ![](https://github.com/rnlduaeo/alibaba/blob/master/Screen%20Shot%202021-10-14%20at%205.40.24%20PM.png?raw=true)
 
 ### NAS File Storage 생성
