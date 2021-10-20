@@ -33,7 +33,7 @@ Build가 trigger되면 kubernetes executor는 build, helper, service-[0-9] conta
 이번 실습에서는 Gitlab EE 버전의 고급 기능들도 함께 살펴볼 것이기 때문에 CE가 아닌 EE 버전을 설치하도록 하겠습니다. 또한 Notification/alerm 등의 메세지를 전송하기 위해 Aliababa Cloud의 [DirectMail](https://www.alibabacloud.com/help/doc-detail/29414.htm?spm=a2c63.l28256.b99.2.7ece6327a7KeQn)을 사용하고, gitlab instance의 주기적인 백업을 위해 [OSS](https://www.alibabacloud.com/help/doc-detail/31817.htm?spm=a2c63.l28256.b99.32.20665139tWd3bc)를 사용합니다. 
 
 ### 클라우드 리소스 생성
-단계적 절차 가이드 문서는 ["클라우드 리소스 생성 및 설정 가이드"](https://www.alibabacloud.com/help/doc-detail/31817.htm?spm=a2c63.l28256.b99.32.20665139tWd3bc)를 참조하시되, Gitlab 설치는 [Gitlab 공식 사이트의 가이드](https://about.gitlab.com/install/#centos-8)를 참조합니다. 
+단계적 절차 가이드 문서는 ["클라우드 리소스 생성 및 설정 가이드"](https://alibabacloud-howto.github.io/devops/tutorials/devops_for_small_to_medium_web_applications/part_01_gitlab_installation_and_configuration.html)를 참조하시되, Gitlab 설치는 [Gitlab 공식 사이트의 가이드](https://about.gitlab.com/install/#centos-8)를 참조합니다. 
 > Note: "클라우드 리소스 생성 및 설정 가이드"에서는 CE edition: 무료버전을 설치합니다. 그 부분만 건너 뛰고 공식 가이드에 따라 EE를 설치해 주시면 됩니다. [CE와 EE의 기능 차이](https://about.gitlab.com/features/by-paid-tier/)는 클릭하여 확인해 주세요. 
 
 ## Part 2. Gitlab runner deployment
@@ -226,8 +226,8 @@ releases:
   version: 0.33.1
   values:
   - image: gitlab/gitlab-runner:alpine-v13.0.0 ## alpine base image로 사용
-    gitlabUrl: https://gitlab.haemieee2.xyz ## gitlab admin console에서 복사
-    runnerRegistrationToken: "9mGD3soBfos8psSDp-xd" ## gitlab admin console에서 복사
+    gitlabUrl: <gitlab url> ## gitlab admin console에서 복사
+    runnerRegistrationToken: "<runner token>" ## gitlab admin console에서 복사
     rbac: ## k8s 리소스에 대한 조작 권한 부여
       create: true
       resources: ["pods", "pods/exec", "secrets", "services"]
